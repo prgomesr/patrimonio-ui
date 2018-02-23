@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ItemService } from '../item.service';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-item-cadastro',
@@ -11,10 +12,18 @@ export class ItemCadastroComponent implements OnInit {
   constructor(private itemService: ItemService) { }
 
   ngOnInit() {
+    this.consultar();
   }
 
   consultar() {
     this.itemService.listar().subscribe(dados => this.itens = dados);
+  }
+
+  adicionar(frm: FormControl) {
+    this.itemService.adicionar(frm.value).subscribe(() => {
+      frm.reset();
+      this.consultar();
+    });
   }
 
 }
